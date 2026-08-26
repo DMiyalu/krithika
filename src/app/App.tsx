@@ -4,7 +4,6 @@ import {
   Facebook,
   Linkedin,
   Instagram,
-  Youtube,
   Play,
   ChevronDown,
   Menu,
@@ -56,11 +55,26 @@ const SOCIAL_LINKS = [
   },
   { Icon: AtSign, label: "Threads" },
   {
-    Icon: Youtube,
+    Icon: YoutubeMark,
     label: "YouTube",
     href: "https://www.youtube.com/@artprojectskrithika",
   },
 ];
+
+function YoutubeMark({ size = 19 }: { size?: number; strokeWidth?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      aria-hidden="true"
+      className="block"
+    >
+      <rect x="2" y="5.5" width="20" height="13" rx="3.2" fill="currentColor" />
+      <path d="M10 9.2v5.6l5-2.8-5-2.8Z" fill="#fff" />
+    </svg>
+  );
+}
 
 const TEAM_MEMBERS = [
   {
@@ -150,11 +164,12 @@ function PerformerPage() {
           <p className="text-white/70 text-[10px] tracking-[0.28em] uppercase mb-4">
             Projet artistique
           </p>
-          <h1
-            className="text-white uppercase leading-none max-w-4xl font-extrabold text-[clamp(2.6rem,7vw,6.5rem)]"
-          >
+          <h1 className="text-white uppercase leading-none max-w-4xl font-extrabold whitespace-nowrap text-[clamp(1.7rem,5.2vw,4.8rem)]">
             Performeur de Mémoire
           </h1>
+          <p className="text-white/80 text-[13px] tracking-[0.22em] uppercase mt-5">
+            Mahoutondji Kinmagbo
+          </p>
         </div>
       </section>
 
@@ -354,13 +369,13 @@ export default function App() {
       {/* ══════════════════ FIXED SIDEBAR (desktop) ══════════════════ */}
       <aside className="hidden lg:flex flex-col fixed top-0 left-0 h-screen w-[240px] border-r border-border z-40 bg-background shrink-0">
         {/* Logo */}
-        <div className="flex justify-center px-8 pt-14 pb-9">
+        <div className="flex justify-center px-8 pt-12">
           <KAPLogo />
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-5 overflow-y-auto">
-          <ul className="flex flex-col items-center gap-7 text-center">
+        <nav className="flex flex-1 items-center px-5 py-8 overflow-y-auto">
+          <ul className="flex w-full flex-col items-center gap-7 text-center">
             {NAV.map((item) => (
               <li key={item.label} className="w-full">
                 <button
@@ -408,7 +423,7 @@ export default function App() {
         </nav>
 
         {/* Social + copyright */}
-        <div className="px-5 pb-12 pt-9">
+        <div className="px-5 pb-10">
           <div className="flex items-center justify-center gap-5 mb-10">
             {SOCIAL_LINKS.map(({ Icon, label, href }) =>
               href ? (
@@ -546,10 +561,7 @@ export default function App() {
         ) : (
           <>
         {/* ─── 1. HERO ──────────────────────────────────────────────── */}
-        <section
-          className="relative w-full bg-neutral-900 overflow-hidden"
-          style={{ height: "min(80vh, 780px)" }}
-        >
+        <section className="relative w-full h-[calc(100vh-4rem)] lg:h-screen bg-neutral-900 overflow-hidden">
           <img
             src={IMG_HERO}
             alt="Performeur de Mémoire — performance scénique immersive"
@@ -566,9 +578,12 @@ export default function App() {
 
           {/* Centered copy */}
           <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-            <h1 className="text-white uppercase leading-none tracking-tight mb-8 font-extrabold text-[clamp(2rem,6vw,5rem)]">
-              Performeur<br />de Mémoire
+            <h1 className="text-white uppercase leading-none tracking-tight mb-4 font-extrabold whitespace-nowrap text-[clamp(1.7rem,5.2vw,4.4rem)]">
+              Performeur de Mémoire
             </h1>
+            <p className="text-white/82 text-[12px] sm:text-[13px] tracking-[0.22em] uppercase mb-8">
+              Mahoutondji Kinmagbo
+            </p>
             <a
               href="#performeur-de-memoire"
               className="inline-block text-white border border-white/70 hover:bg-white hover:text-black transition-colors text-[10.5px] tracking-[0.22em] uppercase px-7 py-2.5"
