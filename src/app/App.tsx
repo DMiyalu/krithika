@@ -2,13 +2,23 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   AtSign,
   Facebook,
+  FlaskConical,
+  Headphones,
+  Home,
+  Info,
   Linkedin,
   Instagram,
+  Mail,
+  Newspaper,
+  PanelLeftClose,
+  PanelLeftOpen,
   Play,
   ChevronDown,
   Menu,
   X,
   ArrowRight,
+  Users,
+  Video,
 } from "lucide-react";
 
 // ── Images ───────────────────────────────────────────────────────────────────
@@ -33,14 +43,14 @@ const FEATURED_VIDEO_EMBED =
 
 // ── Nav ───────────────────────────────────────────────────────────────────────
 const NAV = [
-  { label: "ACCUEIL" },
-  { label: "EXPÉRIMENTATIONS" },
-  { label: "RENCONTRES", sub: ["Conférences", "Débats", "Ateliers"] },
-  { label: "MÉDIAS", sub: ["Vidéos", "Photos", "Archives"] },
-  { label: "KRITHIKA PODCASTS" },
-  { label: "À PROPOS DE NOUS" },
-  { label: "ÉQUIPE" },
-  { label: "CONTACTEZ-NOUS" },
+  { label: "ACCUEIL", icon: Home },
+  { label: "EXPÉRIMENTATIONS", icon: FlaskConical },
+  { label: "RENCONTRES", icon: Users, sub: ["Conférences", "Débats", "Ateliers"] },
+  { label: "MÉDIAS", icon: Video, sub: ["Vidéos", "Photos", "Archives"] },
+  { label: "KRITHIKA PODCASTS", icon: Headphones },
+  { label: "À PROPOS DE NOUS", icon: Info },
+  { label: "ÉQUIPE", icon: Newspaper },
+  { label: "CONTACTEZ-NOUS", icon: Mail },
 ];
 
 const SOCIAL_LINKS = [
@@ -48,18 +58,21 @@ const SOCIAL_LINKS = [
     Icon: Facebook,
     label: "Facebook",
     href: "https://web.facebook.com/krithika.artprojects",
+    hoverClass: "hover:text-[#1877F2]",
   },
-  { Icon: Linkedin, label: "LinkedIn" },
+  { Icon: Linkedin, label: "LinkedIn", hoverClass: "hover:text-[#0A66C2]" },
   {
     Icon: Instagram,
     label: "Instagram",
     href: "https://www.instagram.com/krithikaartprojects/",
+    hoverClass: "hover:text-[#E4405F]",
   },
-  { Icon: AtSign, label: "Threads" },
+  { Icon: AtSign, label: "Threads", hoverClass: "hover:text-[#000000]" },
   {
     Icon: YoutubeMark,
     label: "YouTube",
     href: "https://www.youtube.com/@artprojectskrithika",
+    hoverClass: "hover:text-[#FF0000]",
   },
 ];
 
@@ -312,7 +325,7 @@ function TeamPage() {
           {TEAM_MEMBERS.map((member, index) => (
             <article
               key={member.name}
-              className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-7 lg:gap-12 items-start border-b border-border pb-14 lg:pb-16 last:border-b-0 last:pb-0"
+              className="group grid grid-cols-1 md:grid-cols-[260px_1fr] gap-7 lg:gap-12 items-start border-b border-border pb-14 lg:pb-16 last:border-b-0 last:pb-0"
             >
               <div
                 className="overflow-hidden bg-neutral-100 md:sticky md:top-8"
@@ -321,7 +334,7 @@ function TeamPage() {
                 <img
                   src={member.img}
                   alt={member.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
               </div>
               <div>
@@ -348,6 +361,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
   const [featuredVideoOpen, setFeaturedVideoOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [route, setRoute] = useState(
     typeof window === "undefined" ? "" : window.location.hash
   );
@@ -364,55 +378,94 @@ export default function App() {
 
   const isPerformerPage = route === "#performeur-de-memoire";
   const isTeamPage = route === "#equipe";
+  const contentOffset = sidebarCollapsed ? "lg:ml-[82px]" : "lg:ml-[240px]";
+
+  const getNavTarget = (label: string) => {
+    if (label === "ACCUEIL") return "";
+    if (label === "ÉQUIPE") return "equipe";
+    return null;
+  };
+
+  const isNavActive = (label: string) => {
+    if (label === "ACCUEIL") return !route || route === "#";
+    if (label === "ÉQUIPE") return isTeamPage;
+    return false;
+  };
 
   return (
     <div
       className="flex bg-background text-foreground min-h-screen"
     >
       {/* ══════════════════ FIXED SIDEBAR (desktop) ══════════════════ */}
-      <aside className="hidden lg:flex flex-col fixed top-0 left-0 h-screen w-[240px] border-r border-border z-40 bg-background shrink-0">
+      <aside
+        className={`hidden lg:flex flex-col fixed top-0 left-0 h-screen border-r border-border z-40 bg-background shrink-0 transition-[width] duration-300 ease-out ${
+          sidebarCollapsed ? "w-[82px]" : "w-[240px]"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          aria-label={sidebarCollapsed ? "Agrandir la sidebar" : "Réduire la sidebar"}
+          className="absolute -right-4 top-6 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-foreground/70 shadow-sm hover:text-[#c0392b] hover:border-[#c0392b] transition-colors cursor-pointer"
+        >
+          {sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+        </button>
+
         {/* Logo */}
-        <div className="flex justify-center px-8 pt-12">
-          <KAPLogo />
+        <div className={`flex justify-center pt-12 ${sidebarCollapsed ? "px-4" : "px-8"}`}>
+          <KAPLogo className={sidebarCollapsed ? "w-[46px]" : "w-[145px]"} />
         </div>
 
         {/* Nav */}
-        <nav className="flex flex-1 items-center px-5 py-8 overflow-y-auto">
-          <ul className="flex w-full flex-col items-center gap-7 text-center">
-            {NAV.map((item) => (
+        <nav className={`flex flex-1 items-center py-8 overflow-y-auto ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+          <ul className={`flex w-full flex-col items-center text-center ${sidebarCollapsed ? "gap-5" : "gap-7"}`}>
+            {NAV.map((item) => {
+              const Icon = item.icon;
+              const target = getNavTarget(item.label);
+              const active = isNavActive(item.label);
+
+              return (
               <li key={item.label} className="w-full">
                 <button
-                  onClick={() =>
-                    item.sub
-                      ? setOpenSub(openSub === item.label ? null : item.label)
-                      : item.label === "ACCUEIL"
-                        ? (window.location.hash = "")
-                        : item.label === "ÉQUIPE"
-                          ? (window.location.hash = "equipe")
-                        : undefined
-                  }
-                  className="w-full flex items-center justify-center gap-2 group"
+                  title={sidebarCollapsed ? item.label : undefined}
+                  onClick={() => {
+                    if (item.sub && !sidebarCollapsed) {
+                      setOpenSub(openSub === item.label ? null : item.label);
+                      return;
+                    }
+                    if (target !== null) {
+                      window.location.hash = target;
+                    }
+                  }}
+                  className={`w-full flex items-center justify-center gap-2 group transition-colors cursor-pointer ${
+                    active ? "text-[#c0392b]" : "text-foreground hover:text-[#c0392b]"
+                  }`}
                 >
-                  <span className="text-[14px] font-bold tracking-normal uppercase text-foreground group-hover:text-foreground/60 transition-colors leading-snug text-center">
-                    {item.label}
-                  </span>
-                  {item.sub && (
+                  {sidebarCollapsed && (
+                    <Icon size={21} strokeWidth={2.4} className="shrink-0" />
+                  )}
+                  {!sidebarCollapsed && (
+                    <span className="text-[14px] font-bold tracking-normal uppercase transition-colors leading-snug text-center">
+                      {item.label}
+                    </span>
+                  )}
+                  {item.sub && !sidebarCollapsed && (
                     <ChevronDown
                       size={18}
                       strokeWidth={3}
-                      className={`text-foreground flex-shrink-0 transition-transform ${
+                      className={`flex-shrink-0 transition-transform ${
                         openSub === item.label ? "rotate-180" : ""
                       }`}
                     />
                   )}
                 </button>
-                {item.sub && openSub === item.label && (
+                {item.sub && !sidebarCollapsed && openSub === item.label && (
                   <ul className="pt-3 space-y-2 text-center">
                     {item.sub.map((s) => (
                       <li key={s}>
                         <a
                           href="#"
-                          className="block text-[11px] tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+                          className="block text-[11px] tracking-[0.1em] uppercase text-muted-foreground hover:text-[#c0392b] transition-colors cursor-pointer"
                         >
                           {s}
                         </a>
@@ -421,14 +474,15 @@ export default function App() {
                   </ul>
                 )}
               </li>
-            ))}
+              );
+            })}
           </ul>
         </nav>
 
         {/* Social + copyright */}
-        <div className="px-5 pb-10">
-          <div className="flex items-center justify-center gap-5 mb-10">
-            {SOCIAL_LINKS.map(({ Icon, label, href }) =>
+        <div className={`pb-10 ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+          <div className={`flex items-center justify-center mb-10 ${sidebarCollapsed ? "flex-col gap-4" : "gap-5"}`}>
+            {SOCIAL_LINKS.map(({ Icon, label, href, hoverClass }) =>
               href ? (
                 <a
                   key={label}
@@ -436,7 +490,7 @@ export default function App() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="text-foreground/70 hover:text-foreground transition-colors"
+                  className={`text-foreground/70 transition-colors cursor-pointer ${hoverClass}`}
                 >
                   <Icon size={19} strokeWidth={2.5} />
                 </a>
@@ -444,7 +498,7 @@ export default function App() {
                 <span
                   key={label}
                   aria-label={`${label} - lien à venir`}
-                  className="text-foreground/70"
+                  className={`text-foreground/70 transition-colors ${hoverClass}`}
                   role="img"
                 >
                   <Icon size={19} strokeWidth={2.5} />
@@ -452,7 +506,7 @@ export default function App() {
               )
             )}
           </div>
-          <p className="text-center text-[13px] text-foreground/85 leading-[1.9]">
+          <p className={`text-center text-[13px] text-foreground/85 leading-[1.9] ${sidebarCollapsed ? "hidden" : ""}`}>
             © {CURRENT_YEAR} Krithika Art Projects.
             <br />
             Tous droits réservés.
@@ -524,7 +578,7 @@ export default function App() {
           </nav>
           <div className="px-6 py-8 text-center">
             <div className="flex justify-center gap-5 mb-6">
-              {SOCIAL_LINKS.map(({ Icon, label, href }) =>
+              {SOCIAL_LINKS.map(({ Icon, label, href, hoverClass }) =>
                 href ? (
                   <a
                     key={label}
@@ -532,7 +586,7 @@ export default function App() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="text-foreground/70 hover:text-foreground"
+                    className={`text-foreground/70 transition-colors cursor-pointer ${hoverClass}`}
                   >
                     <Icon size={19} strokeWidth={2.5} />
                   </a>
@@ -540,7 +594,7 @@ export default function App() {
                   <span
                     key={label}
                     aria-label={`${label} - lien à venir`}
-                    className="text-foreground/70"
+                    className={`text-foreground/70 transition-colors ${hoverClass}`}
                     role="img"
                   >
                     <Icon size={19} strokeWidth={2.5} />
@@ -556,13 +610,14 @@ export default function App() {
       )}
 
       {/* ══════════════════ MAIN SCROLLABLE CONTENT ══════════════════ */}
-      <main className="flex-1 lg:ml-[240px] pt-16 lg:pt-0 flex flex-col">
-        {isPerformerPage ? (
-          <PerformerPage />
-        ) : isTeamPage ? (
-          <TeamPage />
-        ) : (
-          <>
+      <main className={`flex-1 ${contentOffset} pt-16 lg:pt-0 flex flex-col transition-[margin] duration-300 ease-out`}>
+        <div key={route || "home"} className="page-transition">
+          {isPerformerPage ? (
+            <PerformerPage />
+          ) : isTeamPage ? (
+            <TeamPage />
+          ) : (
+            <>
         {/* ─── 1. HERO ──────────────────────────────────────────────── */}
         <section className="relative w-full h-[calc(100vh-4rem)] lg:h-screen bg-neutral-900 overflow-hidden">
           <img
@@ -814,20 +869,21 @@ export default function App() {
           </div>
         </section>
 
-          </>
-        )}
+            </>
+          )}
+        </div>
       </main>
 
       {featuredVideoOpen && (
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-4 py-8"
+          className="video-dialog-backdrop fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-4 py-8"
           role="dialog"
           aria-modal="true"
           aria-label="Lecture vidéo Photo Gaga"
           onClick={() => setFeaturedVideoOpen(false)}
         >
           <div
-            className="w-full max-w-4xl bg-background"
+            className="video-dialog-panel w-full max-w-4xl bg-background shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
