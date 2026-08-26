@@ -28,6 +28,8 @@ const IMG_PERFORMER_COVER = "/performer-cover.jpeg";
 const IMG_PERFORMER_VIDEO = "/performer-video-cover.jpeg";
 const IMG_PERFORMER_PERSON = "/performer-person.jpeg";
 const CURRENT_YEAR = new Date().getFullYear();
+const FEATURED_VIDEO_EMBED =
+  "https://www.youtube.com/embed/VrFRINu8QG0?autoplay=1&rel=0";
 
 // ── Nav ───────────────────────────────────────────────────────────────────────
 const NAV = [
@@ -345,6 +347,7 @@ function TeamPage() {
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
+  const [featuredVideoOpen, setFeaturedVideoOpen] = useState(false);
   const [route, setRoute] = useState(
     typeof window === "undefined" ? "" : window.location.hash
   );
@@ -595,15 +598,21 @@ export default function App() {
         </section>
 
         {/* ─── NEWS BAR ─────────────────────────────────────────────── */}
-        <div className="flex items-center gap-4 px-6 lg:px-10 py-4 border-b border-border">
+        <button
+          type="button"
+          onClick={() => setFeaturedVideoOpen(true)}
+          className="flex w-full items-center gap-4 px-6 lg:px-10 py-4 border-b border-border text-left hover:bg-muted/60 transition-colors group"
+        >
           <div className="flex-shrink-0 w-8 h-8 bg-[#FF0000] flex items-center justify-center">
             <Play size={13} fill="white" className="text-white ml-0.5" />
           </div>
           <p className="text-[11.5px] text-foreground/70">
             <span className="font-medium text-foreground">Nouveauté&nbsp;: </span>
-            Rumba congolaise&nbsp;: art contemporain et recherche.
+            <span className="group-hover:text-foreground transition-colors">
+              Photo Gaga : entre archives et influences familiales
+            </span>
           </p>
-        </div>
+        </button>
 
         {/* ─── 2. EXPÉRIMENTATIONS ──────────────────────────────────── */}
         <section id="experimentations" className="px-6 lg:px-12 py-16 lg:py-20">
@@ -808,6 +817,44 @@ export default function App() {
           </>
         )}
       </main>
+
+      {featuredVideoOpen && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-4 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Lecture vidéo Photo Gaga"
+          onClick={() => setFeaturedVideoOpen(false)}
+        >
+          <div
+            className="w-full max-w-4xl bg-background"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em]">
+                Photo Gaga
+              </p>
+              <button
+                type="button"
+                onClick={() => setFeaturedVideoOpen(false)}
+                aria-label="Fermer la vidéo"
+                className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="bg-black" style={{ aspectRatio: "16/9" }}>
+              <iframe
+                src={FEATURED_VIDEO_EMBED}
+                title="Photo Gaga : entre archives et influences familiales"
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
