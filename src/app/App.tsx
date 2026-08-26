@@ -530,11 +530,15 @@ export default function App() {
 
       {/* Mobile nav overlay */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-background flex flex-col pt-14 overflow-y-auto">
+        <div className="mobile-menu-panel lg:hidden fixed inset-0 z-40 bg-background flex flex-col pt-14 overflow-y-auto">
           <nav className="flex-1 px-6 pt-6">
             <ul className="text-center">
-              {NAV.map((item) => (
-                <li key={item.label}>
+              {NAV.map((item, index) => (
+                <li
+                  key={item.label}
+                  className="mobile-menu-item"
+                  style={{ animationDelay: `${90 + index * 35}ms` }}
+                >
                   <button
                     className="w-full flex items-center justify-center gap-2 py-4"
                     onClick={() =>
