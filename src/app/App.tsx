@@ -128,7 +128,7 @@ const TEAM_MEMBERS = [
     bio:
       "Artiste visuel, Samuel Mwani vit et travaille à Kinshasa, sa ville natale. Né en 1999, il est diplômé du deuxième cycle (Bac+5) d’Arts graphiques, option communication visuelle à l’Académie des Beaux-Arts de Kinshasa. Il s’est spécialisé dans la photographie urbaine. Il documente performance artistique et autres actions ou évènements quotidiens de l’espace public, notamment des constructions diverses participant à l’urbanisation de sa ville, différentes scènes culturelles et activités de mouvements de jeunesse. Ses images sont généralement le fruit d’un travail collaboratif entre le photographe et les personnes représentées manifestant la tension entre l’action et l’image statique. Le travail de Samuel Mwani a été présenté, entre autres, lors de l’exposition virtuelle Confinement 2.0 (2020), aux 1ère et 2ème édition du Festival Kin Etelemi-telemi (2021, 2024), ainsi qu’au projet Congo Connecting de la Punning Foundation (2022). Son œuvre a également été exposée à la Galerie du Port de La Ciotat (2022) et au centre culturel Mokili Na Poche, dans le cadre des résidences pour jeunes artistes organisées par le Laboratoire Kontempo (2023). Plus récemment, il a participé au Kinshasa Urban Art Fest (2023, 2024) et au Festival du Film Africain de New York (2025), au sein d'une exposition de photographie numérique curatée par Cecilia A. Zoppelletto pour Congo RE-Vue.",
   },  {
-    name: "ECKA KWETU ART",
+    name: "BROWN KWETE",
     role: "Chargé technique",
     img: "/team/img-03.jpg",
     bio:
