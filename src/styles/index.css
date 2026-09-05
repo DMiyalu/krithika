@@ -104,7 +104,7 @@ section[id] {
 /* Desktop sidebar: compact groups, with spare height above the footer. */
 .site-sidebar .sidebar-navigation {
   flex-shrink: 1;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 
 .site-sidebar .sidebar-menu {
@@ -141,7 +141,7 @@ section[id] {
 
 @media (max-height: 650px) {
   .site-sidebar .sidebar-logo { padding-top: 16px; }
-  .site-sidebar .sidebar-navigation { margin-top: 24px; flex-shrink: 1; }
+  .site-sidebar .sidebar-navigation { margin-top: 32px; flex-shrink: 1; }
   .site-sidebar .sidebar-menu { gap: 14px; }
   .site-sidebar .sidebar-spacer { flex-basis: 16px; }
   .site-sidebar .sidebar-footer { padding-bottom: 12px; }
