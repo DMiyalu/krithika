@@ -1,6 +1,14 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "./components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, type CarouselApi } from "./components/ui/carousel";
 import { useEffect, useState, type ReactNode } from "react";
 import {
+  Brush,
+  Palette,
+  Camera,
+  Frame,
+  Mic,
+  Monitor,
+  Drama,
+  Sparkles,
   AtSign,
   Facebook,
   FlaskConical,
@@ -157,11 +165,41 @@ function SectionHeading({ children }: { children: ReactNode }) {
   );
 }
 
-function ContentSlider({ label, className = "", children }: { label: string; className?: string; children: ReactNode }) {
+function ContentSlider({ label, className = "", children, autoPlay = false }: { label: string; className?: string; children: ReactNode; autoPlay?: boolean }) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [paused, setPaused] = useState(false);
+  const [interacting, setInteracting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(preference.matches);
+    update();
+    preference.addEventListener("change", update);
+    return () => preference.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!api || !autoPlay || paused || interacting || reducedMotion) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) api.scrollNext();
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [api, autoPlay, paused, interacting, reducedMotion]);
   return (
-    <Carousel opts={{ loop: true }} aria-label={label} className={className}>
+    <Carousel opts={{ loop: true, duration: 35 }} setApi={setApi} aria-label={label} className={className}
+      onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)}
+      onFocusCapture={() => setInteracting(true)}
+      onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false); }}
+      onPointerDown={() => setInteracting(true)}
+      onPointerUp={(event) => { if (event.pointerType !== "mouse") setInteracting(false); }}
+      onPointerCancel={() => setInteracting(false)}
+    >
       <CarouselContent>{children}</CarouselContent>
       <div className="flex justify-end gap-3 mt-6">
+        {autoPlay && !reducedMotion && <button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused} className="px-3 text-sm border border-border rounded-full">
+          {paused ? "Reprendre le défilement" : "Mettre en pause"}
+        </button>}
         <CarouselPrevious aria-label="Diapositive précédente" className="static translate-y-0 size-10" />
         <CarouselNext aria-label="Diapositive suivante" className="static translate-y-0 size-10" />
       </div>
@@ -192,7 +230,7 @@ function PerformerPage() {
           <p className="text-white/70 text-[10px] tracking-[0.28em] uppercase mb-4">
             S+t+arts, Afropean intelligence
           </p>
-          <h1 className="text-white uppercase leading-none max-w-4xl font-extrabold whitespace-nowrap text-[clamp(1.7rem,5.2vw,4.8rem)]">
+          <h1 className="text-white uppercase leading-none max-w-4xl font-extrabold text-balance text-[clamp(1.7rem,5.2vw,4.8rem)]">
             Performeur de Mémoire
           </h1>
           <p className="text-white/80 text-[13px] tracking-[0.22em] uppercase mt-5">
@@ -205,12 +243,12 @@ function PerformerPage() {
         <div className="max-w-4xl mx-auto">
           <p className="text-[13.5px] leading-relaxed text-foreground/75 max-w-3xl mb-10">
             Un projet financé par l&rsquo;Union européenne dans le cadre de
-            l&rsquo;initiative <a href="https://starts.eu/afropean-intelligence/" className="font-bold underline underline-offset-4 hover:text-accent">S+t+arts</a>, en collaboration avec plusieurs institutions
+            l&rsquo;initiative <a href="https://starts.eu/afropean-intelligence/" target="_blank" rel="noopener noreferrer" className="font-bold underline underline-offset-4 hover:text-accent">S+t+arts</a>, en collaboration avec plusieurs institutions
             culturelles et de recherche. Cette proposition interroge la mémoire,
             l&rsquo;oralité et les formes contemporaines de transmission.
           </p>
 
-          <ContentSlider label="Images de Performeur de Mémoire" className="mb-12">
+          <ContentSlider autoPlay label="Images de Performeur de Mémoire" className="mb-12">
             {[IMG_PERFORMER_COVER, IMG_HERO, IMG_PERFORMER_VIDEO].map((src, index) => (
               <CarouselItem key={src} aria-label={`${index + 1} sur 3`}>
                 <div className="overflow-hidden bg-neutral-100 aspect-video">
@@ -371,6 +409,38 @@ function TeamPage() {
   );
 }
 
+function SidebarArtwork() {
+  const marks = [
+    { Icon: Brush, x: 9, y: 8, rotate: 24, size: 25 },
+    { Icon: Camera, x: 39, y: 17, rotate: -16, size: 26 },
+    { Icon: Video, x: 77, y: 10, rotate: 18, size: 25 },
+    { Icon: Palette, x: 18, y: 42, rotate: -18, size: 27 },
+    { Icon: Frame, x: 58, y: 37, rotate: 14, size: 27 },
+    { Icon: Monitor, x: 35, y: 69, rotate: 12, size: 24 },
+    { Icon: Drama, x: 79, y: 67, rotate: 18, size: 25 },
+    { Icon: Headphones, x: 12, y: 87, rotate: -12, size: 23 },
+    { Icon: Mic, x: 61, y: 86, rotate: -8, size: 23 },
+    { Icon: Sparkles, x: 89, y: 44, rotate: 20, size: 12 },
+    { Icon: Sparkles, x: 47, y: 92, rotate: 30, size: 10 },
+  ];
+  return (
+    <div className="sidebar-artwork" aria-hidden="true">
+      {marks.map(({ Icon, x, y, rotate, size }, index) => (
+        <Icon key={index} size={size} strokeWidth={1.3} className="absolute"
+          style={{ left: `${x}%`, top: `${y}%`, transform: `rotate(${rotate}deg)` }} />
+      ))}
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 240 180" fill="none" preserveAspectRatio="none">
+        <g stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
+          <path d="M0 106l7 1 3 6 7-1 4 7 9 1M218 136q-6 4-3 8t-3 8M2 17l7 2m-3-5v8" />
+          <circle cx="153" cy="18" r="2" /><circle cx="100" cy="76" r="2" />
+          <circle cx="199" cy="94" r="3" /><circle cx="55" cy="31" r="1" />
+          <circle cx="164" cy="128" r="1.5" /><circle cx="15" cy="146" r="1.5" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -414,7 +484,8 @@ export default function App() {
     >
       {/* ══════════════════ FIXED SIDEBAR (desktop) ══════════════════ */}
       <aside
-        className={`hidden lg:flex flex-col fixed top-0 left-0 h-screen border-r border-border z-40 bg-background shrink-0 transition-[width] duration-300 ease-out ${
+        data-collapsed={sidebarCollapsed}
+        className={`site-sidebar hidden lg:flex flex-col fixed top-0 left-0 h-screen border-r border-border z-40 bg-background shrink-0 transition-[width] duration-300 ease-out ${
           sidebarCollapsed ? "w-[82px]" : "w-[240px]"
         }`}
       >
@@ -428,13 +499,13 @@ export default function App() {
         </button>
 
         {/* Logo */}
-        <div className={`flex shrink-0 justify-center pt-6 ${sidebarCollapsed ? "px-4" : "px-8"}`}>
+        <div className={`sidebar-logo flex shrink-0 justify-center pt-6 ${sidebarCollapsed ? "px-4" : "px-8"}`}>
           <KAPLogo className={sidebarCollapsed ? "w-[46px]" : "w-[145px]"} />
         </div>
 
         {/* Nav */}
-        <nav className={`flex min-h-0 flex-1 items-stretch py-5 overflow-y-auto ${sidebarCollapsed ? "px-3" : "px-5"}`}>
-          <ul className={`flex w-full flex-col items-center justify-between gap-4 text-center`}>
+        <nav className={`sidebar-navigation flex min-h-0 shrink-0 items-start overflow-y-auto ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+          <ul className={`sidebar-menu flex w-full flex-col items-center text-center`}>
             {NAV.map((item) => {
               const Icon = item.icon;
               const target = getNavTarget(item.label);
@@ -495,8 +566,10 @@ export default function App() {
           </ul>
         </nav>
 
+        <div className="sidebar-spacer" aria-hidden="true" />
+
         {/* Social + copyright */}
-        <div className={`shrink-0 pb-5 ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+        <div className={`sidebar-footer shrink-0 pb-5 ${sidebarCollapsed ? "px-3" : "px-5"}`}>
           <div className={`flex items-center justify-center mb-4 ${sidebarCollapsed ? "flex-col gap-4" : "gap-5"}`}>
             {SOCIAL_LINKS.map(({ Icon, label, href, hoverClass }) =>
               href ? (
@@ -504,7 +577,7 @@ export default function App() {
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className={`text-foreground/70 transition-colors cursor-pointer ${hoverClass}`}
                 >
@@ -528,6 +601,7 @@ export default function App() {
             Tous droits réservés.
           </p>
         </div>
+        <SidebarArtwork />
       </aside>
 
       {/* ══════════════════ MOBILE HEADER ══════════════════ */}
@@ -604,7 +678,7 @@ export default function App() {
                     key={label}
                     href={href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className={`text-foreground/70 transition-colors cursor-pointer ${hoverClass}`}
                   >
@@ -630,7 +704,7 @@ export default function App() {
       )}
 
       {/* ══════════════════ MAIN SCROLLABLE CONTENT ══════════════════ */}
-      <main className={`flex-1 ${contentOffset} pt-16 lg:pt-0 flex flex-col transition-[margin] duration-300 ease-out`}>
+      <main className={`min-w-0 flex-1 ${contentOffset} pt-16 lg:pt-0 flex flex-col transition-[margin] duration-300 ease-out`}>
         <div key={route || "home"} className="page-transition">
           {isPerformerPage ? (
             <PerformerPage />
@@ -656,7 +730,7 @@ export default function App() {
 
           {/* Centered copy */}
           <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-            <h1 className="text-white uppercase leading-none tracking-tight mb-4 font-extrabold whitespace-nowrap text-[clamp(1.7rem,5.2vw,4.4rem)]">
+            <h1 className="text-white uppercase leading-none tracking-tight mb-4 font-extrabold text-balance text-[clamp(1.7rem,5.2vw,4.4rem)]">
               Performeur de Mémoire
             </h1>
             <p className="text-white/82 text-[12px] sm:text-[13px] tracking-[0.22em] uppercase mb-8">
@@ -693,7 +767,7 @@ export default function App() {
         <section id="experimentations" className="px-6 lg:px-12 py-16 lg:py-20">
           <SectionHeading>Expérimentations</SectionHeading>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
                 img: IMG_EXP_1,
@@ -745,7 +819,7 @@ export default function App() {
         >
           <SectionHeading>Critique Talk</SectionHeading>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
                 img: IMG_TALK_1,
@@ -794,7 +868,7 @@ export default function App() {
         >
           <SectionHeading>Krithika Podcasts</SectionHeading>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
                 img: IMG_POD_1,

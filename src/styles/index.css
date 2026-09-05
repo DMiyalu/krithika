@@ -100,3 +100,49 @@ section[id] {
     opacity: 1;
   }
 }
+
+/* Desktop sidebar: compact groups, with spare height above the footer. */
+.site-sidebar .sidebar-navigation {
+  flex-shrink: 1;
+  margin-top: 32px;
+}
+
+.site-sidebar .sidebar-menu {
+  gap: 20px;
+}
+
+.site-sidebar .sidebar-spacer {
+  flex: 1 0 32px;
+}
+
+.sidebar-artwork {
+  position: relative;
+  flex: 0 0 clamp(100px, 18vh, 190px);
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  color: #555;
+  opacity: 0.2;
+}
+
+.site-sidebar[data-collapsed="true"] .sidebar-artwork {
+  display: none;
+}
+
+@media (max-height: 850px) {
+  .sidebar-artwork { flex-basis: 90px; }
+  .site-sidebar .sidebar-menu { gap: 16px; }
+  .site-sidebar .sidebar-spacer { flex-basis: 24px; }
+}
+
+@media (max-height: 740px) {
+  .sidebar-artwork { display: none; }
+}
+
+@media (max-height: 650px) {
+  .site-sidebar .sidebar-logo { padding-top: 16px; }
+  .site-sidebar .sidebar-navigation { margin-top: 24px; flex-shrink: 1; }
+  .site-sidebar .sidebar-menu { gap: 14px; }
+  .site-sidebar .sidebar-spacer { flex-basis: 16px; }
+  .site-sidebar .sidebar-footer { padding-bottom: 12px; }
+}
