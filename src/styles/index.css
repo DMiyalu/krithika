@@ -83,3 +83,20 @@
   opacity: 0;
   animation: mobile-menu-item-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/* Keep anchor headings visible below the sticky news bar and mobile header. */
+section[id] {
+  scroll-margin-top: 10rem;
+}
+
+@media (min-width: 1024px) {
+  section[id] { scroll-margin-top: 6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition, .mobile-menu-panel, .mobile-menu-item,
+  .video-dialog-backdrop, .video-dialog-panel {
+    animation: none;
+    opacity: 1;
+  }
+}

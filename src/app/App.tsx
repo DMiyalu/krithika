@@ -1,3 +1,4 @@
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "./components/ui/carousel";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   AtSign,
@@ -93,22 +94,8 @@ function YoutubeMark({ size = 19 }: { size?: number; strokeWidth?: number }) {
 
 const TEAM_MEMBERS = [
   {
-    name: "DAFROSE BACHU KAJURU NYENYEZI",
-    role: "Chargée de projet et relation publique",
-    img: "/team/img-01.jpg",
-    bio:
-      "Dafrose Bachu, née à Kinshasa le 31 janvier 1998, est détentrice d’un diplôme de graduat (bac+3) depuis 2021 en Animation culturelle et d’un diplôme de licence (bac+5) en Administration et gestion des entreprises culturelles touristiques et loisirs, à l’Institut National de arts (INA) de Kinshasa, depuis 2024. Bachu a également effectué plusieurs stages et formations, notamment au Musée National de la RDC, dans le cadre de la fin de son cycle de graduat en 2021. En 2022, elle a été assistante à la création pour la structure.",
-  },
-  {
-    name: "ECKA KWETU ART",
-    role: "Recherche critique et rencontres artistiques",
-    img: "/team/img-03.jpg",
-    bio:
-      "De Bukavu, en 2025 après sa participation à l’atelier de recherche sur la critique (CORPUS), elle assiste à la 11eme édition de la Rencontre internationale d'art contemporain (RIAC) à Brazzaville. Actuellement chargée de projets et des relations publiques au sein de Krithika Art Projects, structure de la pensée critique dans l’art en RD Congo à Kinshasa.",
-  },
-  {
     name: "JEAN KAMBA",
-    role: "Directeur Artistique",
+    role: "Directeur exécutif et artistique",
     img: "/team/img-02.jpg",
     bio:
       "Jean Kamba vit et travaille à Kinshasa. Titulaire d’une licence en Lettres et Sciences humaines / Sciences de l’Information et de la Communication de l’Université Pédagogique Nationale de Kinshasa, il est poète, critique d’art et curateur. Kamba dirige KRITHIKA ARTPROJECTS, plateforme de recherche et d’expérimentations, basée à Kinshasa. Depuis plusieurs années, il mène un travail de suivi, de médiation et d’évaluation auprès des artistes, en organisant des ateliers et des expositions. Cette démarche a contribué à l’émergence de plusieurs artistes et théoriciens. Ses articles ont été publiés chez OBSIDIAN : Literature & Arts in the African Diaspora ; 59th Carnegie International ; Afterall Journal ; OnCurating ; Contemporary And ; Revue d’histoire contemporaine de l’Afrique, etc. Kamba a pris part à « 99 QUESTIONS : On the Poetics of Loose Ends » au Humboldt Forum ; STARTS Afropean Intelligence ; Documenta 14 via un programme du Goethe-Institut. Membre de Another Roadmap School Africa Cluster (ARAC), il y a également pris part en 2022. Il a été invité à l’Institut National d’Histoire de l’Art (INHA) à Paris, en 2023, pour l’atelier de recherche « Repenser les récits de l’art depuis l’Afrique : usages situés de la modernité (c. 1920-1980) », etc.",
@@ -119,6 +106,13 @@ const TEAM_MEMBERS = [
     img: "/team/img-04.jpg",
     bio:
       "Azgard Itambo est un artiste visuel né en 1990 à Kinshasa, ville où il vit et crée. Il est diplômé d'État (baccalauréat), en Pédagogie. Itambo poursuit actuellement ses études universitaires à l’Université Pédagogique Nationale, en Sociologie & Anthropologie. Il a à son actif plusieurs expositions au pays et à l’étranger et participe dans plusieurs projets artistiques en tant que producteur visuel, notamment la Biennale Yango, Kinshasa Design Week et autres. Membre de l’ASBL « collectif Farata » et co-fondateur de « Krithika artprojects », il dirige depuis 2020 le festival d’art performance de Kinshasa dénommé « Kin-Etelemi-Telemi », mis en place par le collectif Farata. Azgard aborde un travail complexe liant la photographie, le graphisme et la vidéo expérimentale. Il considère que le travail d’un artiste de plusieurs casquettes est comme une toile d’araignée où tout est réuni pour se servir au bout du compte des passerelles les unes aux autres. L’approche photographique d’Azgard porte un regard poétique et artistique sur le geste du quotidien kinois et ouvre le champ de l’observation profonde sur les espaces visibles et non visibles de la ville de Kinshasa. Il ouvre, en outre, la voie de penser la ville et sa configuration et questionne la notion urbanistique ou architecturale, mettant surtout un point focal sur ses transformations. Il traite aussi, au-delà de cet aspect, des sujets liés aux questionnements personnels autour des problématiques touchant la notion de la définition de soi.",
+  },
+  {
+    name: "DAFROSE BACHU KAJURU NYENYEZI",
+    role: "Relations publiques",
+    img: "/team/img-01.jpg",
+    bio:
+      "Dafrose Bachu, née à Kinshasa le 31 janvier 1998, est détentrice d’un diplôme de graduat (bac+3) depuis 2021 en Animation culturelle et d’un diplôme de licence (bac+5) en Administration et gestion des entreprises culturelles touristiques et loisirs, à l’Institut National de arts (INA) de Kinshasa, depuis 2024. Bachu a également effectué plusieurs stages et formations, notamment au Musée National de la RDC, dans le cadre de la fin de son cycle de graduat en 2021. En 2022, elle a été assistante à la création pour la structure.",
   },
   {
     name: "MAGLOIRE MPAKA",
@@ -133,7 +127,14 @@ const TEAM_MEMBERS = [
     img: "/team/img-06.jpg",
     bio:
       "Artiste visuel, Samuel Mwani vit et travaille à Kinshasa, sa ville natale. Né en 1999, il est diplômé du deuxième cycle (Bac+5) d’Arts graphiques, option communication visuelle à l’Académie des Beaux-Arts de Kinshasa. Il s’est spécialisé dans la photographie urbaine. Il documente performance artistique et autres actions ou évènements quotidiens de l’espace public, notamment des constructions diverses participant à l’urbanisation de sa ville, différentes scènes culturelles et activités de mouvements de jeunesse. Ses images sont généralement le fruit d’un travail collaboratif entre le photographe et les personnes représentées manifestant la tension entre l’action et l’image statique. Le travail de Samuel Mwani a été présenté, entre autres, lors de l’exposition virtuelle Confinement 2.0 (2020), aux 1ère et 2ème édition du Festival Kin Etelemi-telemi (2021, 2024), ainsi qu’au projet Congo Connecting de la Punning Foundation (2022). Son œuvre a également été exposée à la Galerie du Port de La Ciotat (2022) et au centre culturel Mokili Na Poche, dans le cadre des résidences pour jeunes artistes organisées par le Laboratoire Kontempo (2023). Plus récemment, il a participé au Kinshasa Urban Art Fest (2023, 2024) et au Festival du Film Africain de New York (2025), au sein d'une exposition de photographie numérique curatée par Cecilia A. Zoppelletto pour Congo RE-Vue.",
+  },  {
+    name: "ECKA KWETU ART",
+    role: "Chargé technique",
+    img: "/team/img-03.jpg",
+    bio:
+      "De Bukavu, en 2025 après sa participation à l’atelier de recherche sur la critique (CORPUS), elle assiste à la 11eme édition de la Rencontre internationale d'art contemporain (RIAC) à Brazzaville. Actuellement chargée de projets et des relations publiques au sein de Krithika Art Projects, structure de la pensée critique dans l’art en RD Congo à Kinshasa.",
   },
+
 ];
 
 // ── Official logo ─────────────────────────────────────────────────────────────
@@ -150,9 +151,21 @@ function KAPLogo({ className = "w-[145px]" }: { className?: string }) {
 // ── Section heading ───────────────────────────────────────────────────────────
 function SectionHeading({ children }: { children: ReactNode }) {
   return (
-    <h2 className="text-center text-[13px] font-normal tracking-[0.22em] uppercase text-foreground mb-10">
+    <h2 className="text-center text-[16px] font-bold tracking-[0.22em] uppercase text-foreground mb-10">
       {children}
     </h2>
+  );
+}
+
+function ContentSlider({ label, className = "", children }: { label: string; className?: string; children: ReactNode }) {
+  return (
+    <Carousel opts={{ loop: true }} aria-label={label} className={className}>
+      <CarouselContent>{children}</CarouselContent>
+      <div className="flex justify-end gap-3 mt-6">
+        <CarouselPrevious aria-label="Diapositive précédente" className="static translate-y-0 size-10" />
+        <CarouselNext aria-label="Diapositive suivante" className="static translate-y-0 size-10" />
+      </div>
+    </Carousel>
   );
 }
 
@@ -177,7 +190,7 @@ function PerformerPage() {
         />
         <div className="absolute inset-x-0 bottom-0 px-6 lg:px-12 pb-10 lg:pb-14">
           <p className="text-white/70 text-[10px] tracking-[0.28em] uppercase mb-4">
-            Projet artistique
+            S+t+arts, Afropean intelligence
           </p>
           <h1 className="text-white uppercase leading-none max-w-4xl font-extrabold whitespace-nowrap text-[clamp(1.7rem,5.2vw,4.8rem)]">
             Performeur de Mémoire
@@ -192,18 +205,20 @@ function PerformerPage() {
         <div className="max-w-4xl mx-auto">
           <p className="text-[13.5px] leading-relaxed text-foreground/75 max-w-3xl mb-10">
             Un projet financé par l&rsquo;Union européenne dans le cadre de
-            l&rsquo;initiative S+T+ARTS, en collaboration avec plusieurs institutions
+            l&rsquo;initiative <a href="https://starts.eu/afropean-intelligence/" className="font-bold underline underline-offset-4 hover:text-accent">S+t+arts</a>, en collaboration avec plusieurs institutions
             culturelles et de recherche. Cette proposition interroge la mémoire,
             l&rsquo;oralité et les formes contemporaines de transmission.
           </p>
 
-          <div className="overflow-hidden bg-neutral-100 mb-12" style={{ aspectRatio: "16/9" }}>
-            <img
-              src={IMG_PERFORMER_COVER}
-              alt="Installation Performeur de Mémoire"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <ContentSlider label="Images de Performeur de Mémoire" className="mb-12">
+            {[IMG_PERFORMER_COVER, IMG_HERO, IMG_PERFORMER_VIDEO].map((src, index) => (
+              <CarouselItem key={src} aria-label={`${index + 1} sur 3`}>
+                <div className="overflow-hidden bg-neutral-100 aspect-video">
+                  <img src={src} alt={`Performeur de Mémoire — vue ${index + 1}`} className="w-full h-full object-cover" />
+                </div>
+              </CarouselItem>
+            ))}
+          </ContentSlider>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.1fr] gap-10 lg:gap-14">
             <aside>
@@ -341,7 +356,7 @@ function TeamPage() {
                 <p className="text-[10px] tracking-[0.24em] uppercase text-muted-foreground mb-3">
                   {member.role}
                 </p>
-                <h2 className="text-2xl lg:text-4xl leading-tight mb-6 font-medium">
+                <h2 className="text-2xl lg:text-4xl leading-tight mb-6 font-bold">
                   {member.name}
                 </h2>
                 <p className="text-[14px] leading-[1.9] text-foreground/76">
@@ -370,6 +385,7 @@ export default function App() {
     const handleHashChange = () => {
       setRoute(window.location.hash);
       setMobileOpen(false);
+      if (["", "#", "#equipe", "#performeur-de-memoire"].includes(window.location.hash)) window.scrollTo(0, 0);
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -412,13 +428,13 @@ export default function App() {
         </button>
 
         {/* Logo */}
-        <div className={`flex justify-center pt-12 ${sidebarCollapsed ? "px-4" : "px-8"}`}>
+        <div className={`flex shrink-0 justify-center pt-6 ${sidebarCollapsed ? "px-4" : "px-8"}`}>
           <KAPLogo className={sidebarCollapsed ? "w-[46px]" : "w-[145px]"} />
         </div>
 
         {/* Nav */}
-        <nav className={`flex flex-1 items-center py-8 overflow-y-auto ${sidebarCollapsed ? "px-3" : "px-5"}`}>
-          <ul className={`flex w-full flex-col items-center text-center ${sidebarCollapsed ? "gap-5" : "gap-7"}`}>
+        <nav className={`flex min-h-0 flex-1 items-stretch py-5 overflow-y-auto ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+          <ul className={`flex w-full flex-col items-center justify-between gap-4 text-center`}>
             {NAV.map((item) => {
               const Icon = item.icon;
               const target = getNavTarget(item.label);
@@ -480,8 +496,8 @@ export default function App() {
         </nav>
 
         {/* Social + copyright */}
-        <div className={`pb-10 ${sidebarCollapsed ? "px-3" : "px-5"}`}>
-          <div className={`flex items-center justify-center mb-10 ${sidebarCollapsed ? "flex-col gap-4" : "gap-5"}`}>
+        <div className={`shrink-0 pb-5 ${sidebarCollapsed ? "px-3" : "px-5"}`}>
+          <div className={`flex items-center justify-center mb-4 ${sidebarCollapsed ? "flex-col gap-4" : "gap-5"}`}>
             {SOCIAL_LINKS.map(({ Icon, label, href, hoverClass }) =>
               href ? (
                 <a
@@ -660,7 +676,7 @@ export default function App() {
         <button
           type="button"
           onClick={() => setFeaturedVideoOpen(true)}
-          className="flex w-full items-center gap-4 px-6 lg:px-10 py-4 border-b border-border text-left hover:bg-muted/60 transition-colors group"
+          className="sticky top-16 lg:top-0 z-30 bg-background shadow-sm flex w-full items-center gap-4 px-6 lg:px-10 py-4 border-b border-border text-left hover:bg-muted transition-colors group"
         >
           <div className="flex-shrink-0 w-8 h-8 bg-[#FF0000] flex items-center justify-center">
             <Play size={13} fill="white" className="text-white ml-0.5" />
@@ -681,21 +697,21 @@ export default function App() {
             {[
               {
                 img: IMG_EXP_1,
-                category: "Installation multimédia",
+                category: "Exposition Multimedia",
                 title: "Start Afropean Intelligence",
                 desc: "Une exploration des croisements entre intelligence artificielle, mémoire collective et identités africaines contemporaines.",
               },
               {
                 img: IMG_EXP_2,
-                category: "Recherche visuelle",
-                title: "Performeur de Mémoire",
-                desc: "Un laboratoire scénique autour du corps, des archives et des récits transmis par la performance.",
+                category: "Recherche",
+                title: "Corpus :",
+                desc: "Atélier de recherche sur la critique d’art",
               },
               {
                 img: IMG_EXP_3,
-                category: "Projet en cours",
-                title: "Rumba, gestes et archives",
-                desc: "Une expérimentation sur les formes musicales congolaises et leurs résonances dans les arts contemporains.",
+                category: "S+t+arts",
+                title: "Live coding",
+                desc: "Kasala, spectacle multimédia, entre la musique, la poésie, vidéo et coding",
               },
             ].map((exp) => (
               <article key={exp.title} className="group cursor-pointer">
@@ -710,7 +726,7 @@ export default function App() {
                   <p className="text-[9.5px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
                     {exp.category}
                   </p>
-                  <h3 className="text-[14.5px] font-medium leading-snug mb-2 group-hover:text-foreground/60 transition-colors">
+                  <h3 className="text-[20px] lg:text-[22px] font-bold leading-snug mb-2 group-hover:text-foreground/60 transition-colors">
                     {exp.title}
                   </h3>
                   <p className="text-[12px] text-muted-foreground leading-relaxed line-clamp-3">
@@ -762,7 +778,7 @@ export default function App() {
                   <p className="text-[9.5px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
                     {t.date} — {t.location}
                   </p>
-                  <h3 className="text-[14.5px] font-medium leading-snug text-foreground group-hover:text-foreground/60 transition-colors">
+                  <h3 className="text-[20px] lg:text-[22px] font-bold leading-snug text-foreground group-hover:text-foreground/60 transition-colors">
                     {t.title}
                   </h3>
                 </div>
@@ -821,7 +837,7 @@ export default function App() {
                   <p className="text-[9.5px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
                     {pod.ep}
                   </p>
-                  <h3 className="text-[14.5px] font-medium leading-snug mb-2">
+                  <h3 className="text-[20px] lg:text-[22px] font-bold leading-snug mb-2">
                     {pod.title}
                   </h3>
                   <p className="text-[12px] text-muted-foreground leading-relaxed line-clamp-3">
@@ -838,39 +854,50 @@ export default function App() {
           id="apropos"
           className="px-6 lg:px-12 py-16 lg:py-24 border-t border-border"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-5xl">
-            <div>
-              <p className="text-[9.5px] tracking-[0.26em] uppercase text-muted-foreground mb-6">
-                À propos
-              </p>
-              <h2 className="text-3xl lg:text-4xl font-medium leading-tight mb-6">
-                Un espace de recherche et de création pour les arts contemporains africains
-              </h2>
-              <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">
-                Krithika Art Projects est une plateforme indépendante dédiée à la recherche,
-                à l&rsquo;expérimentation et à la diffusion des pratiques artistiques contemporaines
-                en Afrique et dans la diaspora.
-              </p>
-              <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-8">
-                Fondée sur une pensée critique et pluridisciplinaire, elle rassemble artistes,
-                chercheurs et publics autour de projets singuliers — expositions, conférences,
-                podcasts et ateliers.
-              </p>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-medium border-b border-foreground pb-px hover:text-muted-foreground hover:border-muted-foreground transition-colors"
-              >
-                En savoir plus <ArrowRight size={12} />
-              </a>
-            </div>
-            <div className="overflow-hidden bg-neutral-100" style={{ aspectRatio: "4/3" }}>
-              <img
-                src={IMG_ABOUT}
-                alt="Rencontre artistique — Krithika Art Projects"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+          <p className="text-[16px] font-bold tracking-[0.26em] uppercase mb-6">À propos</p>
+          <ContentSlider label="À propos de Krithika Art Projects" className="max-w-5xl">
+            {[
+              {
+                title: "Un espace de recherche et de création pour les arts contemporains africains",
+                paragraphs: [
+                  "Krithika Art Projects est une plateforme indépendante dédiée à la recherche, à l’expérimentation et à la diffusion des pratiques artistiques contemporaines en Afrique et dans la diaspora.",
+                  "Fondée sur une pensée critique et pluridisciplinaire, elle rassemble artistes, chercheurs et publics autour de projets singuliers — expositions, conférences, podcasts et ateliers.",
+                ],
+                img: IMG_ABOUT, alt: "Rencontre artistique — Krithika Art Projects", href: "#equipe",
+              },
+              {
+                title: "Recherche, expérimentation et mémoire collective",
+                paragraphs: [
+                  "Une exploration des croisements entre intelligence artificielle, mémoire collective et identités africaines contemporaines.",
+                  "Expositions multimédia, ateliers de recherche sur la critique d’art et spectacles entre musique, poésie, vidéo et coding nourrissent ces expérimentations.",
+                ],
+                img: IMG_EXP_1, alt: "Expérimentations — Krithika Art Projects", href: "#experimentations",
+              },
+              {
+                title: "Des rencontres entre artistes, chercheurs et publics",
+                paragraphs: [
+                  "Expositions, conférences, podcasts et ateliers ouvrent des espaces de dialogue autour des pratiques artistiques contemporaines.",
+                  "Krithika Podcasts explore notamment la photographie comme outil de mémoire et de transmission intergénérationnelle.",
+                ],
+                img: IMG_TALK_1, alt: "Dialogue autour des pratiques artistiques", href: "#podcasts",
+              },
+            ].map((slide, index) => (
+              <CarouselItem key={slide.title} aria-label={`${index + 1} sur 3`}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                  <div>
+                    <h2 className="text-3xl lg:text-4xl font-bold leading-tight mb-6">{slide.title}</h2>
+                    {slide.paragraphs.map((paragraph) => <p key={paragraph} className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">{paragraph}</p>)}
+                    <a href={slide.href} className="inline-flex items-center gap-2 mt-4 text-[10px] tracking-[0.22em] uppercase font-medium border-b border-foreground pb-px hover:text-muted-foreground transition-colors">
+                      En savoir plus <ArrowRight size={12} />
+                    </a>
+                  </div>
+                  <div className="overflow-hidden bg-neutral-100 aspect-[4/3]">
+                    <img src={slide.img} alt={slide.alt} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </ContentSlider>
         </section>
 
             </>
